@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import operator
 class Visualize():
 
     def __init__(self, data):
@@ -69,11 +70,30 @@ class Visualize():
         writer.save()
     
     def pointsVSlocation(self):
-        points_sorted = self.pd_data["Points"].sort_values(ascending = False)
-        places = []
+        places = {}
+        for i in range(26811):
+            if self.pd_data["Location"][i] not in places:
+                places[self.pd_data["Location"][i]] = self.pd_data["Points"][i]
+            else:
+                places[self.pd_data["Location"][i]] = places[self.pd_data["Location"][i]] + self.pd_data["Points"][i]
+
+        sorted_places = sorted(places.items(), key = operator.itemgetter(1))
+        sorted_places = sorted_places[len(sorted_places) - 20: len(sorted_places)]
+        print sorted_places
+            
 
     def jobVSposts(self):
+        jobs = {}
         job_lower = self.pd_data["Job"].str.lower()
-        print job_lower.value_counts() 
-    
-           
+        for i in range(26811):
+            if job_lower[i] not in jobs:
+                jobs[job_lower[i]] = self.pd_data["Points"][i]
+            else:
+                jobs[job_lower[i]] = jobs[job_lower[i]] + self.pd_data["Points"][i]
+
+        sorted_jobs = sorted(jobs.items(), key = operator.itemgetter(1))
+        sorted_jobs = sorted_jobs[len(sorted_jobs) - 20: len(sorted_jobs)]
+        print sorted_jobs
+     
+
+

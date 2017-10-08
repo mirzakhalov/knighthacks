@@ -12,7 +12,7 @@ def main():
     analyzer = Analyzer(essay)
     visuals = Visualize(analyzer.data_structures())
     
-    
+    visuals.jobVSposts()
 
 if __name__ == "__main__":
     main()
